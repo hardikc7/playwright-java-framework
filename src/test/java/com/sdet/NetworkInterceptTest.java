@@ -22,14 +22,14 @@ public class NetworkInterceptTest {
     public void testBlockImages() {
         page.route("**/*.{png,jpg,jpeg,gif,svg}", route -> {
             System.out.println("Blocked: " +
-                route.request().url());
+                    route.request().url());
             route.abort();
         });
 
         page.navigate("https://the-internet.herokuapp.com");
         Assert.assertTrue(
-            page.title().length() > 0,
-            "Page should load without images");
+                page.title().length() > 0,
+                "Page should load without images");
 
         System.out.println("✅ Page loaded without images");
     }
@@ -39,43 +39,62 @@ public class NetworkInterceptTest {
     public void testMockApiResponse() {
         page.route("**/api/users**", route -> {
             route.fulfill(new Route.FulfillOptions()
-                .setStatus(200)
-                .setContentType("application/json")
-                .setBody("""
-                    {
-                      "id": 1,
-                      "name": "Hardik Shah",
-                      "role": "SDET",
-                      "status": "active"
-                    }
-                    """));
+                    .setStatus(200)
+                    .setContentType("application/json")
+                    .setBody("""
+                            {
+                              "id": 1,
+                              "name": "Hardik Shah",
+                              "role": "SDET",
+                              "status": "active"
+                            }
+                            """));
         });
 
         page.navigate("https://the-internet.herokuapp.com");
         System.out.println("✅ Mock API response configured");
         Assert.assertTrue(true,
-            "Mock response set successfully");
+                "Mock response set successfully");
     }
 
     // ✅ TEST 3 — Log all network calls
     @Test
     public void testLogNetworkCalls() {
-        page.onRequest(request ->
-            System.out.println("REQUEST  → " +
-                request.method() + " " + request.url())
-        );
+        page.onRequest(request -> System.out.println("REQUEST  → " +
+                request.method() + " " + request.url()));
 
-        page.onResponse(response ->
-            System.out.println("RESPONSE ← " +
-                response.status() + " " + response.url())
-        );
+        page.onResponse(response -> System.out.println("RESPONSE ← " +
+                response.status() + " " + response.url()));
 
         page.navigate("https://the-internet.herokuapp.com");
         Assert.assertTrue(
-            page.title().length() > 0,
-            "Page should load successfully");
+                page.title().length() > 0,
+                "Page should load successfully");
 
         System.out.println("✅ Network calls logged");
+    }
+
+    // ✅ TEST 4 — Modify request headers before sending
+    @Test
+    public void testModifyRequestHeaders() {
+        page.route("**/*", route -> {
+            // ✅ Add custom headers to every request
+            java.util.Map<String, String> headers = new java.util.HashMap<>(route.request().headers());
+
+            headers.put("x-test-header", "automation");
+            headers.put("x-framework", "playwright-java");
+            headers.put("x-author", "hardik-shah");
+
+            route.resume(new Route.ResumeOptions()
+                    .setHeaders(headers));
+        });
+
+        page.navigate("https://the-internet.herokuapp.com");
+
+        System.out.println("✅ Custom headers injected into request");
+        Assert.assertTrue(
+                page.title().length() > 0,
+                "Page should load with modified headers");
     }
 
     @AfterMethod
