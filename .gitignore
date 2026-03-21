@@ -1,8 +1,7 @@
-.idea/
-.vscode/
-*.log
+node_modules/
+dist/
+playwright-report/
+test-results/
+screenshots/
 .DS_Store
-target/
-test-output/
-*.html
-.vscode/
+.env

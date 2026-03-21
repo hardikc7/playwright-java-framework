@@ -1,0 +1,12 @@
+{
+    "validUser": {
+      "email": "student",
+      "password": "Password123",
+      "expectedMessage": "Logged In Successfully"
+    },
+    "invalidUser": {
+      "email": "wrongUser",
+      "password": "wrongPassword",
+      "expectedMessage": "Your username is invalid!"
+    }
+  }

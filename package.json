@@ -1,0 +1,26 @@
+{
+  "name": "playwright-java-framework",
+  "version": "1.0.0",
+  "description": "Production-grade test automation framework built with Playwright Java and TestNG following Page Object Model design pattern.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hardikc7/playwright-java-framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hardikc7/playwright-java-framework/issues"
+  },
+  "homepage": "https://github.com/hardikc7/playwright-java-framework#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
+  }
+}
